@@ -1,0 +1,13 @@
+desc 'Sample sshkit-to-fluentd logging'
+task :sample do
+  require 'sshkit'
+  require 'sshkit/dsl'
+  require 'sshkit-fluent-logger'
+  SSHKit.config.format = :fluent
+
+  on 'localhost' do
+    run_locally do
+      execute 'df -h'
+    end
+  end
+end

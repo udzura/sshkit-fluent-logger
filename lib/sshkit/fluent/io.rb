@@ -1,10 +1,13 @@
 require 'sshkit'
 require 'uri'
+require 'forwardable'
 require 'fluent-logger'
 
 module SSHKit
   module Fluent
     class IO
+      extend Forwardable
+
       def initialize(io)
         @original_output = io
         self.fluent_url = 'tcp://localhost:24224'
@@ -35,7 +38,7 @@ module SSHKit
 
       # TODO prefix if needed
       def reinit_client
-        Fluent::Logger::FluentLogger.open(nil, :host => fluent_host, :port => fluent_port)
+        ::Fluent::Logger::FluentLogger.open(nil, :host => fluent_host, :port => fluent_port)
       end
     end
   end
